@@ -1,7 +1,5 @@
-package testing;
+package org.jmmo.testing;
 
-import org.jmmo.observable.Observable;
-import org.jmmo.observable.event.ObservableListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -13,11 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
-import java.util.List;
-
-import static org.mockito.Matchers.notNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * User: Tomas
@@ -91,11 +84,5 @@ public class TestHelper {
         }
 
         return doc.getDocumentElement();
-    }
-
-    public static ObservableListener createMockListener() {
-        ObservableListener listener = mock(ObservableListener.class);
-        when(listener.filterObservable(notNull(Observable.class), notNull(List.class))).thenReturn(true);
-        return listener;
     }
 }

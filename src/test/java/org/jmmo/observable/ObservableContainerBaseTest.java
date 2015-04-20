@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import testing.TestHelper;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,7 +58,7 @@ public class ObservableContainerBaseTest {
     @Test
     public void testAddChildObservable() throws Exception {
         Observable observable = new ObservableBase() {};
-        ObservableListener listener = TestHelper.createMockListener();
+        ObservableListener listener = MockListenerHelper.createMockListener();
         observableContainerBase.addObservableListener(listener);
 
         observableContainerBase.addChildObservable(observable);
@@ -69,7 +68,7 @@ public class ObservableContainerBaseTest {
     @Test
     public void testRemoveChildObservable() throws Exception {
         Observable observable = new ObservableBase() {};
-        ObservableListener listener = TestHelper.createMockListener();
+        ObservableListener listener = MockListenerHelper.createMockListener();
         observableContainerBase.addObservableListener(listener);
 
         observableContainerBase.removeChildObservable(observable);
@@ -84,7 +83,7 @@ public class ObservableContainerBaseTest {
     public void testBubblingChildEventLevel1() throws Exception {
         ObservableBase observableBase = new ObservableBase() {};
         ObservableEvent event = new ObservableEvent(observableBase);
-        ObservableListener listener = TestHelper.createMockListener();
+        ObservableListener listener = MockListenerHelper.createMockListener();
         observableContainerBase.addObservableListener(listener);
 
         observableContainerBase.addChildObservable(observableBase);
@@ -104,7 +103,7 @@ public class ObservableContainerBaseTest {
         };
 
         observableContainerBase.addChildObservable(observableContainerSlave);
-        ObservableListener listener = TestHelper.createMockListener();
+        ObservableListener listener = MockListenerHelper.createMockListener();
         observableContainerBase.addObservableListener(listener);
         observableContainerSlave.addChildObservable(observableBase);
         verify(listener).handleObservableEvent(new AddedObservableEvent(observableContainerSlave, observableBase), Collections.<Observable>singletonList(observableContainerBase));

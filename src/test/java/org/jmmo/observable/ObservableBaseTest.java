@@ -7,14 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import testing.TestHelper;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -59,16 +58,16 @@ public class ObservableBaseTest {
 
     @Test
     public void testAddObservableListener() throws Exception {
-        ObservableListener listener1 = TestHelper.createMockListener();
+        ObservableListener listener1 = MockListenerHelper.createMockListener();
         observableBase.addObservableListener(listener1);
         assertThat(observableBase.subscribedListeners, containsInAnyOrder(listener1));
 
-        ObservableListener listener2 = TestHelper.createMockListener();
+        ObservableListener listener2 = MockListenerHelper.createMockListener();
         when(listener2.filterObservable(notNull(Observable.class), notNull(List.class))).thenReturn(true);
         observableBase.addObservableListener(listener2);
         assertThat(observableBase.subscribedListeners, containsInAnyOrder(listener1, listener2));
 
-        ObservableListener listener3 = TestHelper.createMockListener();
+        ObservableListener listener3 = MockListenerHelper.createMockListener();
         when(listener3.filterObservable(notNull(Observable.class), notNull(List.class))).thenReturn(false);
         observableBase.addObservableListener(listener3);
         assertThat(observableBase.subscribedListeners, containsInAnyOrder(listener1, listener2));
@@ -76,15 +75,15 @@ public class ObservableBaseTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddObservableListenerTwice() throws Exception {
-        ObservableListener listener = TestHelper.createMockListener();
+        ObservableListener listener = MockListenerHelper.createMockListener();
         observableBase.addObservableListener(listener);
         observableBase.addObservableListener(listener);
     }
 
     @Test
     public void testRemoveObservableListener() throws Exception {
-        ObservableListener listener1 = TestHelper.createMockListener();
-        ObservableListener listener2 = TestHelper.createMockListener();
+        ObservableListener listener1 = MockListenerHelper.createMockListener();
+        ObservableListener listener2 = MockListenerHelper.createMockListener();
         observableBase.addObservableListener(listener1);
         observableBase.addObservableListener(listener2);
         assertThat(observableBase.subscribedListeners, containsInAnyOrder(listener1, listener2));
@@ -101,8 +100,8 @@ public class ObservableBaseTest {
         ObservableEvent event = new ObservableEvent(observableBase);
         observableBase.fireObservableEvent(event);
 
-        ObservableListener listener1 = TestHelper.createMockListener();
-        ObservableListener listener2 = TestHelper.createMockListener();
+        ObservableListener listener1 = MockListenerHelper.createMockListener();
+        ObservableListener listener2 = MockListenerHelper.createMockListener();
         observableBase.addObservableListener(listener1);
         observableBase.addObservableListener(listener2);
         assertThat(observableBase.subscribedListeners, containsInAnyOrder(listener1, listener2));
@@ -126,7 +125,7 @@ public class ObservableBaseTest {
     @Test
     public void testSubscribeInsideEvent() throws Exception {
         ObservableEvent event = new ObservableEvent(observableBase);
-        final ObservableListener listener1 = TestHelper.createMockListener();
+        final ObservableListener listener1 = MockListenerHelper.createMockListener();
         final boolean[] flag = new boolean[] {false};
         ObservableListener listener2 = new ObservableAdapter() {
             @Override
